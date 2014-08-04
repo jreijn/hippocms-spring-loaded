@@ -258,6 +258,11 @@
                     <todir>conf/</todir>
                     <tofile>context.xml</tofile>
                   </configfile>
+                  <configfile>
+                    <file>${project.build.directory}/contexts/site-context.xml</file>
+                    <todir>conf/Catalina/localhost/</todir>
+                    <tofile>site.xml</tofile>
+                  </configfile>
                 </configfiles>
               </configuration>
               <container>
