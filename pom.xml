@@ -309,6 +309,18 @@
       </build>
     </profile>
 
+    <profile>
+      <id>springloaded</id>
+      <activation>
+        <property>
+          <name>springloaded</name>
+        </property>
+      </activation>
+      <properties>
+        <javaagent>-javaagent:/usr/local/Cellar/spring-loaded/1.2.0/share/java/springloaded.jar</javaagent>
+      </properties>
+    </profile>
+
   </profiles>
 
 </project>
