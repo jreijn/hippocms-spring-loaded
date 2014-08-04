@@ -20,18 +20,17 @@ To build a Tomcat distribution tarball containing only deployable artifacts:
 
 See also src/main/assembly/distribution.xml if you need to customize the distribution.
 
-Using JRebel
+Using Spring Loaded
 ============
-
-Set the environment variable REBEL_HOME to the directory containing jrebel.jar.
 
 Build with:
 
-  $ mvn clean install -Djrebel
+$ mvn clean install
 
 Start with:
 
-  $ mvn -P cargo.run -Djrebel
+$ mvn -P cargo.run,springloaded
+
 
 Best Practice for development
 =============================
@@ -43,9 +42,9 @@ For example start your project with:
 
 $ mvn -P cargo.run -Drepo.path=/home/usr/tmp/repo
 
-or with jrebel:
+or with Spring Loaded:
 
-$ mvn -P cargo.run -Drepo.path=/home/usr/tmp/repo -Djrebel
+$ mvn -P cargo.run,springloaded -Drepo.path=/home/usr/tmp/repo
 
 Hot deploy
 ==========
