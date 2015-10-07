@@ -5,6 +5,3 @@
 
 [myhippoproject:basedocument] > hippo:document, hippostd:publishableSummary, hippostdpubwf:document orderable
 
-[myhippoproject:textdocument] > myhippoproject:basedocument, hippostd:relaxed
-
-[myhippoproject:newsdocument] > myhippoproject:basedocument, hippostd:relaxed

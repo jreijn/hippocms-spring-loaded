@@ -7,9 +7,6 @@
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hst:channel</sv:value>
     </sv:property>
-    <sv:property sv:name="hst:channelinfoclass" sv:type="String">
-      <sv:value>org.example.channels.WebsiteInfo</sv:value>
-    </sv:property>
     <sv:property sv:name="hst:name" sv:type="String">
       <sv:value>My Hippo Project</sv:value>
     </sv:property>
@@ -19,9 +16,6 @@
     <sv:node sv:name="hst:channelinfo">
       <sv:property sv:name="jcr:primaryType" sv:type="Name">
         <sv:value>hst:channelinfo</sv:value>
-      </sv:property>
-      <sv:property sv:name="headerName" sv:type="String">
-        <sv:value>HST Website</sv:value>
       </sv:property>
     </sv:node>
   </sv:node>

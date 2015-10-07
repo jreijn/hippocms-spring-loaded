@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>7.9.1</version>
+    <version>10.0.2</version>
   </parent>
 
   <name>My Hippo Project</name>
@@ -60,16 +60,16 @@
 
   <properties>
 
-    <!-- ***START temporary override of versions*** -->
+    <!--***START temporary override of versions*** -->
     <!-- ***END temporary override of versions*** -->
 
-    <jsp-api.version>2.1</jsp-api.version>
-    <jstl.version>1.1.2</jstl.version>
-    <taglibs.version>1.1.2</taglibs.version>
+    <essentials.version>2.0.1</essentials.version>
+    <jsp-api.version>2.2</jsp-api.version>
+    <taglibs.version>1.2.1</taglibs.version>
+    <xalan.version>2.7.1</xalan.version>
     <commons.lang.version>2.6</commons.lang.version>
     <junit.version>4.10</junit.version>
     <easymock.version>3.1</easymock.version>
-    <freemarker.version>2.3.18</freemarker.version>
      
     <filesync.override>false</filesync.override>
     <maven.plugins.filesync.version>1.0.0</maven.plugins.filesync.version>
@@ -81,25 +81,60 @@
     <repository>
       <id>hippo</id>
       <name>Hippo maven 2 repository.</name>
-      <url>http://maven.onehippo.com/maven2/</url>
+      <url>https://maven.onehippo.com/maven2/</url>
     </repository>
   </repositories>
 
   <dependencyManagement>
     <dependencies>
-      
+      <dependency>
+        <groupId>org.onehippo.cms7</groupId>
+        <artifactId>hippo-essentials-plugin-sdk-api</artifactId>
+        <version>${essentials.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.onehippo.cms7</groupId>
+        <artifactId>hippo-essentials-components-cms</artifactId>
+        <version>${essentials.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.onehippo.cms7</groupId>
+        <artifactId>hippo-essentials-components-hst</artifactId>
+        <version>${essentials.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.servlet.jsp</groupId>
+        <artifactId>jsp-api</artifactId>
+        <version>${jsp-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
       <!-- other predefined runtime scope versioned dependencies -->
       <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>jstl</artifactId>
-        <version>${jstl.version}</version>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-spec</artifactId>
+        <version>${taglibs.version}</version>
         <scope>runtime</scope>
       </dependency>
 
       <dependency>
-        <groupId>taglibs</groupId>
-        <artifactId>standard</artifactId>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-impl</artifactId>
         <version>${taglibs.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>xalan</groupId>
+        <artifactId>xalan</artifactId>
+        <version>${xalan.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>xalan</groupId>
+        <artifactId>serializer</artifactId>
+        <version>${xalan.version}</version>
         <scope>runtime</scope>
       </dependency>
 
@@ -115,7 +150,7 @@
         <artifactId>freemarker</artifactId>
         <version>${freemarker.version}</version>
       </dependency>
-      
+
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
@@ -132,11 +167,51 @@
 
     </dependencies>
   </dependencyManagement>
-  
+
   <build>
     <defaultGoal>package</defaultGoal>
     <pluginManagement>
       <plugins>
+        <!--
+          This plugin configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.
+        -->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>com.googlecode.mavenfilesync</groupId>
+                    <artifactId>maven-filesync-plugin</artifactId>
+                    <versionRange>[1.0.0,)</versionRange>
+                    <goals>
+                      <goal>generate</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore/>
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <goals>
+                      <goal>regex-property</goal>
+                    </goals>
+                    <versionRange>[0.0,)</versionRange>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore/>
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>com.googlecode.mavenfilesync</groupId>
           <artifactId>maven-filesync-plugin</artifactId>
@@ -188,13 +263,6 @@
           </archive>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <configuration>
-          <skipSource>true</skipSource>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
@@ -212,6 +280,7 @@
         <module>bootstrap</module>
         <module>cms</module>
         <module>site</module>
+        <module>essentials</module>
       </modules>
     </profile>
 
@@ -219,31 +288,6 @@
       <id>cargo.run</id>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>copy-tomcat-resources</id>
-                <phase>validate</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <outputDirectory>${project.build.directory}/contexts</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>conf</directory>
-                      <includes>
-                        <include>*-context.xml</include>
-                      </includes>
-                      <filtering>true</filtering>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
@@ -259,21 +303,12 @@
                     <tofile>context.xml</tofile>
                   </configfile>
                   <configfile>
-                    <file>${project.build.directory}/contexts/site-context.xml</file>
-                    <todir>conf/Catalina/localhost/</todir>
-                    <tofile>site.xml</tofile>
+                    <file>${project.basedir}/conf/catalina-logging.properties</file>
+                    <todir>conf/</todir>
+                    <tofile>logging.properties</tofile>
                   </configfile>
                 </configfiles>
               </configuration>
-              <container>
-                <systemProperties>
-                  <derby.stream.error.file>${project.basedir}/target/derby.log</derby.stream.error.file>
-                  <log4j.configuration>file:${project.basedir}/conf/log4j-dev.xml</log4j.configuration>
-                  <rebel.log4j-plugin>true</rebel.log4j-plugin>
-                  <!-- enables auto export: -->
-                  <project.basedir>${project.basedir}</project.basedir>
-                </systemProperties>
-              </container>
               <deployables>
                 <deployable>
                   <type>war</type>
@@ -289,7 +324,24 @@
                     <context>/site</context>
                   </properties>
                 </deployable>
+                <deployable>
+                  <location>${project.basedir}/essentials/target/essentials.war</location>
+                  <type>war</type>
+                  <properties>
+                    <context>/essentials</context>
+                  </properties>
+                </deployable>
               </deployables>
+              <container>
+                <systemProperties>
+                  <derby.stream.error.file>${project.basedir}/target/derby.log</derby.stream.error.file>
+                  <log4j.configuration>file:${project.basedir}/conf/log4j-dev.xml</log4j.configuration>
+                  <rebel.log4j-plugin>true</rebel.log4j-plugin>
+                  <!-- enables auto export and web files watch: -->
+                  <project.basedir>${project.basedir}</project.basedir>
+                  <send.usage.statistics.to.hippo>true</send.usage.statistics.to.hippo>
+                </systemProperties>
+              </container>
             </configuration>
           </plugin>
         </plugins>
@@ -337,18 +389,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-
-    <profile>
-      <id>springloaded</id>
-      <activation>
-        <property>
-          <name>springloaded</name>
-        </property>
-      </activation>
-      <properties>
-        <javaagent>-javaagent:/usr/local/Cellar/spring-loaded/1.2.0/share/java/springloaded.jar</javaagent>
-      </properties>
     </profile>
 
   </profiles>
