@@ -1,3 +1,6 @@
+For Hippo 10 and Tomcat 8 check out the [Hippo 10 branch](https://github.com/jreijn/hippocms-spring-loaded/tree/hippo10)
+
+
 Running locally
 ===============
 
