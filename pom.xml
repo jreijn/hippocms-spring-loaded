@@ -289,6 +289,31 @@
       <build>
         <plugins>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-tomcat-resources</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/contexts</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>conf</directory>
+                      <includes>
+                        <include>*-context.xml</include>
+                      </includes>
+                      <filtering>true</filtering>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
             <configuration>
@@ -297,6 +322,11 @@
                   <catalina.servlet.uriencoding>UTF-8</catalina.servlet.uriencoding>
                 </properties>
                 <configfiles>
+                  <configfile>
+                    <file>${project.build.directory}/contexts/site-context.xml</file>
+                    <todir>conf/Catalina/localhost/</todir>
+                    <tofile>site.xml</tofile>
+                  </configfile>
                   <configfile>
                     <file>${project.basedir}/conf/context.xml</file>
                     <todir>conf/</todir>
@@ -340,6 +370,7 @@
                   <!-- enables auto export and web files watch: -->
                   <project.basedir>${project.basedir}</project.basedir>
                   <send.usage.statistics.to.hippo>true</send.usage.statistics.to.hippo>
+                  <!--<springloaded>verbose</springloaded>-->
                 </systemProperties>
               </container>
             </configuration>
@@ -389,6 +420,25 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+
+    <profile>
+      <id>springloaded</id>
+      <activation>
+        <property>
+          <name>springloaded</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>springloaded</artifactId>
+          <version>1.2.3.RELEASE</version>
+        </dependency>
+      </dependencies>
+      <properties>
+        <javaagent>-javaagent:${settings.localRepository}/org/springframework/springloaded/1.2.3.RELEASE/springloaded-1.2.3.RELEASE.jar -noverify</javaagent>
+      </properties>
     </profile>
 
   </profiles>

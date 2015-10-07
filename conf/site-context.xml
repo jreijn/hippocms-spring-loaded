@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/site" docBase="${project.basedir}/site/target/site">
+
+  <Resources className="org.apache.catalina.webresources.StandardRoot">
+    <PreResources className="org.apache.catalina.webresources.DirResourceSet"
+                  base="${project.basedir}/site/target/classes"
+                  webAppMount="/WEB-INF/classes"/>
+    <PostResources className="org.apache.catalina.webresources.DirResourceSet"
+                  base="${project.basedir}/site/target/classes"
+                  webAppMount="/WEB-INF/classes"/>
+  </Resources>
+
+</Context>
